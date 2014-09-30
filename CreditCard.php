@@ -11,8 +11,8 @@
 class CreditCard
 {
     protected static $cards = array(
-        # Debit cards must come first, since they have more
-        # specific patterns than their credit-card equivalents.
+        // Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
+
         'visaelectron' => array(
             'type' => 'visaelectron',
             'pattern' => '/^4(026|17500|405|508|844|91[37])/',

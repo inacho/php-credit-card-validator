@@ -57,7 +57,7 @@ bool(true)
 ### Validate the expiration date
 
 ```php
-$validDate = CreditCard::validDate('2013', '07'); # past date
+$validDate = CreditCard::validDate('2013', '07'); // past date
 var_dump($validDate);
 ```
 
