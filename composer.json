@@ -1,0 +1,22 @@
+{
+    "name": "inacho/php-credit-card-validator",
+    "type": "library",
+    "description": "Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm. Also validates the CVC and the expiration date",
+    "keywords": ["creditcard", "creditcards", "debit", "credit", "card", "cards", "validator", "cvc"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ignacio de Tomás",
+            "email": "nacho@inacho.es"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "lib-pcre": ">=7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Inacho\\": "src/"
+        }
+    }
+}
