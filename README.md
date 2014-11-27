@@ -5,7 +5,7 @@ Also validates the CVC and the expiration date.
 
 ## Installation
 
-require package in `composer.json`
+Require the package in `composer.json`
 
 ```json
 "require": {
