@@ -3,6 +3,30 @@
 Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm.
 Also validates the CVC and the expiration date.
 
+## Installation
+
+require package in `composer.json`
+
+```json
+"require": {
+    "inacho/php-credit-card-validator": "dev-master"
+},
+```
+
+If you are using Laravel, add an alias in `config/app.php`
+
+```php
+'aliases' => array(
+
+    'App'             => 'Illuminate\Support\Facades\App',
+    ...
+    'View'            => 'Illuminate\Support\Facades\View',
+
+    'CreditCard'      => 'Inacho\CreditCard',
+
+),
+```
+
 ## Usage
 
 ### Validate a card number knowing the type:
