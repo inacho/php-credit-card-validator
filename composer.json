@@ -2,7 +2,7 @@
     "name": "inacho/php-credit-card-validator",
     "type": "library",
     "description": "Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm. Also validates the CVC and the expiration date",
-    "keywords": ["creditcard", "creditcards", "debit", "credit", "card", "cards", "validator", "cvc"],
+    "keywords": ["creditcard", "creditcards", "debit", "credit", "card", "cards", "validator", "cvc", "laravel"],
     "license": "MIT",
     "authors": [
         {
