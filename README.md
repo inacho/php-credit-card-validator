@@ -9,7 +9,7 @@ Require the package in `composer.json`
 
 ```json
 "require": {
-    "inacho/php-credit-card-validator": "dev-master"
+    "inacho/php-credit-card-validator": "1.*"
 },
 ```
 
