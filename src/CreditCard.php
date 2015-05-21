@@ -138,7 +138,7 @@ class CreditCard
         }
 
         // past date
-        if ($year < date('Y') || $year == date('Y') && $month <= date('m')) {
+        if ($year < date('Y') || $year == date('Y') && $month < date('m')) {
             return false;
         }
 
