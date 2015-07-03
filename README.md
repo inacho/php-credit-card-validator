@@ -90,3 +90,9 @@ Output:
 ```
 bool(false)
 ```
+
+## Tests
+
+Execute the following command to run the unit tests:
+
+    vendor/bin/phpunit --bootstrap vendor/autoload.php tests
