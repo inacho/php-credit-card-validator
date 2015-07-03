@@ -43,7 +43,7 @@ class CreditCard
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        # Credit cards
+        // Credit cards
         'visa' => array(
             'type' => 'visa',
             'pattern' => '/^4/',
@@ -53,7 +53,7 @@ class CreditCard
         ),
         'mastercard' => array(
             'type' => 'mastercard',
-            'pattern' => '/^5[0-5]/',
+            'pattern' => '/^(5[0-5]|2[2-7])/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
@@ -124,11 +124,13 @@ class CreditCard
 
     public static function validCvc($cvc, $type)
     {
-        return (array_key_exists($type, self::$cards) && self::validCvcLength($cvc, $type));
+        return (ctype_digit($cvc) && array_key_exists($type, self::$cards) && self::validCvcLength($cvc, $type));
     }
 
     public static function validDate($year, $month)
     {
+        $month = str_pad($month, 2, '0', STR_PAD_LEFT);
+
         if (! preg_match('/^20\d\d$/', $year)) {
             return false;
         }
