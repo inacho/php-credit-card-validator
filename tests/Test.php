@@ -73,8 +73,8 @@ class Test extends PHPUnit_Framework_TestCase
             foreach ($numbers as $number) {
                 $result = CreditCard::validCreditCard($number);
 
-                $this->assertEquals(true, $result['valid']);
-                $this->assertEquals($type, $result['type']);
+                $this->assertEquals(true, $result['valid'], 'Invalid card, expected valid. Type: ' . $type . ', Number: ' . $number);
+                $this->assertEquals($type, $result['type'], 'Invalid type. Number: ' . $number . ', Expected: ' . $type . ', Actual: ' . $result['type']);
             }
         }
     }
