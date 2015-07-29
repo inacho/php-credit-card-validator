@@ -1,5 +1,7 @@
 # PHP Credit Card Validator
 
+[![Build Status](https://travis-ci.org/inacho/php-credit-card-validator.svg?branch=master)](https://travis-ci.org/inacho/php-credit-card-validator)
+
 Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm.
 Also validates the CVC and the expiration date.
 
