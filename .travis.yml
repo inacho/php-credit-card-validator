@@ -6,6 +6,10 @@ php:
   - 5.5
   - 5.6
 
-before_script: composer install
+before_script:
+  - composer install
+  - composer require satooshi/php-coveralls --prefer-dist
 
-script: phpunit --bootstrap vendor/autoload.php --coverage-text tests
+script: phpunit
+
+after_script: php vendor/bin/coveralls -v
