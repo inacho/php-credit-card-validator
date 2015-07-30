@@ -1,6 +1,6 @@
 # PHP Credit Card Validator
 
-[![Build Status](https://travis-ci.org/inacho/php-credit-card-validator.svg?branch=master)](https://travis-ci.org/inacho/php-credit-card-validator) [![Coverage Status](https://coveralls.io/repos/inacho/php-credit-card-validator/badge.svg?branch=master&service=github)](https://coveralls.io/github/inacho/php-credit-card-validator?branch=master)
+[![Build Status](https://travis-ci.org/inacho/php-credit-card-validator.svg?branch=master)](https://travis-ci.org/inacho/php-credit-card-validator) [![Coverage Status](https://coveralls.io/repos/inacho/php-credit-card-validator/badge.svg?branch=master&service=github)](https://coveralls.io/github/inacho/php-credit-card-validator?branch=master) [![Latest Stable Version](https://poser.pugx.org/inacho/php-credit-card-validator/version)](https://packagist.org/packages/inacho/php-credit-card-validator) [![Total Downloads](https://poser.pugx.org/inacho/php-credit-card-validator/downloads)](https://packagist.org/packages/inacho/php-credit-card-validator)
 
 Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm.
 Also validates the CVC and the expiration date.
