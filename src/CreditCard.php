@@ -98,12 +98,6 @@ class CreditCard
 
     public static function validCreditCard($number, $type = null)
     {
-        $ret = array(
-            'valid' => false,
-            'number' => '',
-            'type' => '',
-        );
-
         // Strip non-numeric characters
         $number = preg_replace('/[^0-9]/', '', $number);
 
@@ -111,7 +105,7 @@ class CreditCard
             $type = self::creditCardType($number);
         }
 
-        if (array_key_exists($type, self::$cards) && self::validCard($number, $type)) {
+        if (isset(self::$cards[$type]) && self::validCard($number, $type)) {
             return array(
                 'valid' => true,
                 'number' => $number,
@@ -119,12 +113,18 @@ class CreditCard
             );
         }
 
-        return $ret;
+        return array(
+            'valid' => false,
+            'number' => '',
+            'type' => '',
+        );
     }
 
     public static function validCvc($cvc, $type)
     {
-        return (ctype_digit($cvc) && array_key_exists($type, self::$cards) && self::validCvcLength($cvc, $type));
+        return ctype_digit($cvc)
+            && isset(self::$cards[$type])
+            && self::validCvcLength($cvc, $type);
     }
 
     public static function validDate($year, $month)
@@ -163,7 +163,9 @@ class CreditCard
 
     protected static function validCard($number, $type)
     {
-        return (self::validPattern($number, $type) && self::validLength($number, $type) && self::validLuhn($number, $type));
+        return self::validPattern($number, $type)
+            && self::validLength($number, $type)
+            && self::validLuhn($number, $type);
     }
 
     protected static function validPattern($number, $type)
@@ -173,56 +175,37 @@ class CreditCard
 
     protected static function validLength($number, $type)
     {
-        foreach (self::$cards[$type]['length'] as $length) {
-            if (strlen($number) == $length) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array(strlen($number), self::$cards[$type]['length'], true);
     }
 
     protected static function validCvcLength($cvc, $type)
     {
-        foreach (self::$cards[$type]['cvcLength'] as $length) {
-            if (strlen($cvc) == $length) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array(strlen($cvc), self::$cards[$type]['cvcLength'], true);
     }
 
     protected static function validLuhn($number, $type)
     {
-        if (! self::$cards[$type]['luhn']) {
-            return true;
-        } else {
-            return self::luhnCheck($number);
-        }
+        return !self::$cards[$type]['luhn'] || self::luhnCheck($number);
     }
 
     protected static function luhnCheck($number)
     {
         $checksum = 0;
-        for ($i=(2-(strlen($number) % 2)); $i<=strlen($number); $i+=2) {
-            $checksum += (int) ($number{$i-1});
+        $len = strlen($number);
+        for ($i=2-($len % 2); $i <= $len; $i+=2) {
+            $checksum += $number[$i-1];
         }
 
         // Analyze odd digits in even length strings or even digits in odd length strings.
-        for ($i=(strlen($number)% 2) + 1; $i<strlen($number); $i+=2) {
-            $digit = (int) ($number{$i-1}) * 2;
+        for ($i=$len % 2 + 1; $i < $len; $i+=2) {
+            $digit = $number[$i-1] * 2;
             if ($digit < 10) {
                 $checksum += $digit;
             } else {
-                $checksum += ($digit-9);
+                $checksum += $digit - 9;
             }
         }
 
-        if (($checksum % 10) == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($checksum % 10) === 0;
     }
 }
