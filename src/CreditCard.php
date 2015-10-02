@@ -12,83 +12,95 @@ namespace Inacho;
 
 class CreditCard
 {
+    const TYPE_VISA_ELECTRON = 'visaelectron';
+    const TYPE_MAESTRO = 'maestro';
+    const TYPE_FORBRUGSFORENINGEN = 'forbrugsforeningen';
+    const TYPE_DANKORT = 'dankort';
+    const TYPE_VISA = 'visa';
+    const TYPE_MASTERCARD = 'mastercard';
+    const TYPE_AMEX = 'amex';
+    const TYPE_DINERS_CLUB = 'dinersclub';
+    const TYPE_DISCOVER = 'discover';
+    const TYPE_UNION_PAY = 'unionpay';
+    const TYPE_JCB = 'jcb';
+
     protected static $cards = array(
         // Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
 
-        'visaelectron' => array(
-            'type' => 'visaelectron',
+        self::TYPE_VISA_ELECTRON => array(
+            'type' => self::TYPE_VISA_ELECTRON,
             'pattern' => '/^4(026|17500|405|508|844|91[37])/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'maestro' => array(
-            'type' => 'maestro',
+        self::TYPE_MAESTRO => array(
+            'type' => self::TYPE_MAESTRO,
             'pattern' => '/^(5(018|0[23]|[68])|6(39|7))/',
             'length' => array(12, 13, 14, 15, 16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'forbrugsforeningen' => array(
-            'type' => 'forbrugsforeningen',
+        self::TYPE_FORBRUGSFORENINGEN => array(
+            'type' => self::TYPE_FORBRUGSFORENINGEN,
             'pattern' => '/^600/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'dankort' => array(
-            'type' => 'dankort',
+        self::TYPE_DANKORT => array(
+            'type' => self::TYPE_DANKORT,
             'pattern' => '/^5019/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
         // Credit cards
-        'visa' => array(
-            'type' => 'visa',
+        self::TYPE_VISA => array(
+            'type' => self::TYPE_VISA,
             'pattern' => '/^4/',
             'length' => array(13, 16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'mastercard' => array(
-            'type' => 'mastercard',
+        self::TYPE_MASTERCARD => array(
+            'type' => self::TYPE_MASTERCARD,
             'pattern' => '/^(5[0-5]|2[2-7])/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'amex' => array(
-            'type' => 'amex',
+        self::TYPE_AMEX => array(
+            'type' => self::TYPE_AMEX,
             'pattern' => '/^3[47]/',
             'format' => '/(\d{1,4})(\d{1,6})?(\d{1,5})?/',
             'length' => array(15),
             'cvcLength' => array(3, 4),
             'luhn' => true,
         ),
-        'dinersclub' => array(
-            'type' => 'dinersclub',
+        self::TYPE_DINERS_CLUB => array(
+            'type' => self::TYPE_DINERS_CLUB,
             'pattern' => '/^3[0689]/',
             'length' => array(14),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'discover' => array(
-            'type' => 'discover',
+        self::TYPE_DISCOVER => array(
+            'type' => self::TYPE_DISCOVER,
             'pattern' => '/^6([045]|22)/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'unionpay' => array(
-            'type' => 'unionpay',
+        self::TYPE_UNION_PAY => array(
+            'type' => self::TYPE_UNION_PAY,
             'pattern' => '/^(62|88)/',
             'length' => array(16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => false,
         ),
-        'jcb' => array(
-            'type' => 'jcb',
+        self::TYPE_JCB => array(
+            'type' => self::TYPE_JCB,
             'pattern' => '/^35/',
             'length' => array(16),
             'cvcLength' => array(3),
