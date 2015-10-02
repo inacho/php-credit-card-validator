@@ -34,7 +34,7 @@ If you are using Laravel, add an alias in `config/app.php`
 ### Validate a card number knowing the type:
 
 ```php
-$card = CreditCard::validCreditCard('5500005555555559', 'mastercard');
+$card = CreditCard::validCreditCard('5500005555555559', CreditCard::TYPE_MASTERCARD);
 print_r($card);
 ```
 
@@ -70,7 +70,7 @@ Array
 ### Validate the CVC
 
 ```php
-$validCvc = CreditCard::validCvc('234', 'visa');
+$validCvc = CreditCard::validCvc('234', CreditCard::TYPE_VISA);
 var_dump($validCvc);
 ```
 
