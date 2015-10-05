@@ -108,7 +108,12 @@ class CreditCard
         ),
     );
 
-    public static function validCreditCard($number, $type = null)
+    /**
+     * @param string $number
+     * @param string|string[]|null $allowTypes By default, all card types are allowed
+     * @return array
+     */
+    public static function validCreditCard($number, $allowTypes = null)
     {
         $ret = array(
             'valid' => false,
@@ -117,10 +122,16 @@ class CreditCard
         );
 
         // Strip non-numeric characters
-        $number = preg_replace('/[^0-9]/', '', $number);
+        $number = preg_replace('/\D/', '', $number);
 
-        if (empty($type)) {
+        if (is_string($allowTypes)) {
+            $type = $allowTypes;
+        } else {
             $type = self::creditCardType($number);
+        }
+
+        if (is_array($allowTypes) && !in_array($type, $allowTypes)) {
+            return $ret;
         }
 
         if (array_key_exists($type, self::$cards) && self::validCard($number, $type)) {
