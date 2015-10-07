@@ -12,17 +12,17 @@ namespace Inacho;
 
 class CreditCard
 {
-    const TYPE_VISA_ELECTRON = 'visaelectron';
-    const TYPE_MAESTRO = 'maestro';
-    const TYPE_FORBRUGSFORENINGEN = 'forbrugsforeningen';
-    const TYPE_DANKORT = 'dankort';
-    const TYPE_VISA = 'visa';
-    const TYPE_MASTERCARD = 'mastercard';
     const TYPE_AMEX = 'amex';
+    const TYPE_DANKORT = 'dankort';
     const TYPE_DINERS_CLUB = 'dinersclub';
     const TYPE_DISCOVER = 'discover';
-    const TYPE_UNION_PAY = 'unionpay';
+    const TYPE_FORBRUGSFORENINGEN = 'forbrugsforeningen';
     const TYPE_JCB = 'jcb';
+    const TYPE_MAESTRO = 'maestro';
+    const TYPE_MASTERCARD = 'mastercard';
+    const TYPE_UNION_PAY = 'unionpay';
+    const TYPE_VISA = 'visa';
+    const TYPE_VISA_ELECTRON = 'visaelectron';
 
     protected static $cards = array(
         // Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
