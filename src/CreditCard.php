@@ -124,7 +124,7 @@ class CreditCard
 
     public static function validCvc($cvc, $type)
     {
-        return (ctype_digit($cvc) && array_key_exists($type, self::$cards) && self::validCvcLength($cvc, $type));
+        return (is_numeric($cvc) && array_key_exists($type, self::$cards) && self::validCvcLength($cvc, $type));
     }
 
     public static function validDate($year, $month)
