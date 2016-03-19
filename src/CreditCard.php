@@ -44,6 +44,20 @@ class CreditCard
             'luhn' => true,
         ),
         // Credit cards
+        'hipercard' => array(
+            'type' => 'hipercard',
+            'pattern' => '/^(606282\d{10}(\d{3})?)|(3841\d{15})$/',
+            'length' => array(13, 16, 19),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        'elo' => array(
+            'type' => 'elo',
+            'pattern' => '/^(4011(7[89])?)|43(1274|8935)|45(1416|7393|76(31|32)?)|50(4175|6699|67[0-7][0-8]|9\d{3})|627780|636(297|368|369)|6500(3([1-3]|[5-9])|4\d{1}|5[01])|650(4(0[5-9]|[1-3]\d{1}|8[5-9]|9\d{1})|5([0-2]\d{1}|3[0-8]|4[1-9]|5\d{1}|[6-8]\d{1}|9[0-8])|7(0\d{1}|1[0-8]|2[0-7])|9(0[1-9]|1\d{1}|20))|6516(5[2-9]|6\d{1}|7[0-9])|6550([01]\d{1}|2[1-9]|[34]\d{1}|5[0-8])/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
         'visa' => array(
             'type' => 'visa',
             'pattern' => '/^4/',
@@ -131,11 +145,11 @@ class CreditCard
     {
         $month = str_pad($month, 2, '0', STR_PAD_LEFT);
 
-        if (! preg_match('/^20\d\d$/', $year)) {
+        if (!preg_match('/^20\d\d$/', $year)) {
             return false;
         }
 
-        if (! preg_match('/^(0[1-9]|1[0-2])$/', $month)) {
+        if (!preg_match('/^(0[1-9]|1[0-2])$/', $month)) {
             return false;
         }
 
@@ -195,7 +209,7 @@ class CreditCard
 
     protected static function validLuhn($number, $type)
     {
-        if (! self::$cards[$type]['luhn']) {
+        if (!self::$cards[$type]['luhn']) {
             return true;
         } else {
             return self::luhnCheck($number);
@@ -205,17 +219,17 @@ class CreditCard
     protected static function luhnCheck($number)
     {
         $checksum = 0;
-        for ($i=(2-(strlen($number) % 2)); $i<=strlen($number); $i+=2) {
-            $checksum += (int) ($number{$i-1});
+        for ($i = (2 - (strlen($number) % 2)); $i <= strlen($number); $i += 2) {
+            $checksum += (int)($number{$i - 1});
         }
 
         // Analyze odd digits in even length strings or even digits in odd length strings.
-        for ($i=(strlen($number)% 2) + 1; $i<strlen($number); $i+=2) {
-            $digit = (int) ($number{$i-1}) * 2;
+        for ($i = (strlen($number) % 2) + 1; $i < strlen($number); $i += 2) {
+            $digit = (int)($number{$i - 1}) * 2;
             if ($digit < 10) {
                 $checksum += $digit;
             } else {
-                $checksum += ($digit-9);
+                $checksum += ($digit - 9);
             }
         }
 
