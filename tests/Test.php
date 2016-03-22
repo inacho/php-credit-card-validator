@@ -137,6 +137,30 @@ class Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, $result['valid']);
     }
 
+    public function testLengthException()
+    {
+        $this->setExpectedException('Inacho\Exception\CreditCardLengthException');
+        CreditCard::checkCreditCard('42424242424242424');
+    }
+
+    public function testTypeException()
+    {
+        $this->setExpectedException('Inacho\Exception\CreditCardTypeException');
+        CreditCard::checkCreditCard('4242-4242-4242-4242', array(CreditCard::TYPE_MASTERCARD, CreditCard::TYPE_AMEX));
+    }
+
+    public function testPatternException()
+    {
+        $this->setExpectedException('Inacho\Exception\CreditCardPatternException');
+        CreditCard::checkCreditCard('6266-4242-42942-4242', CreditCard::TYPE_VISA);
+    }
+
+    public function testLuhnException()
+    {
+        $this->setExpectedException('Inacho\Exception\CreditCardLuhnException');
+        CreditCard::checkCreditCard('4233-3333-3333-4242');
+    }
+
     public function testLuhn()
     {
         $result = CreditCard::validCreditCard('4242424242424241');
