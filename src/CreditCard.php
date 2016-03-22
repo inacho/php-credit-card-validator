@@ -10,6 +10,12 @@
 
 namespace Inacho;
 
+use Inacho\Exception\CreditCardException;
+use Inacho\Exception\CreditCardLengthException;
+use Inacho\Exception\CreditCardLuhnException;
+use Inacho\Exception\CreditCardPatternException;
+use Inacho\Exception\CreditCardTypeException;
+
 class CreditCard
 {
     const TYPE_AMEX = 'amex';
@@ -130,7 +136,7 @@ class CreditCard
             $type = self::creditCardType($number);
         }
 
-        if (is_array($allowTypes) && !in_array($type, $allowTypes)) {
+        if (empty($type) || is_array($allowTypes) && !in_array($type, $allowTypes)) {
             return $ret;
         }
 
@@ -143,6 +149,39 @@ class CreditCard
         }
 
         return $ret;
+    }
+
+    /**
+     * @param string $number
+     * @param string|string[]|null $allowTypes By default, all card types are allowed
+     * @throws CreditCardException
+     */
+    public static function checkCreditCard($number, $allowTypes = null)
+    {
+        // Strip non-numeric characters
+        $number = preg_replace('/\D/', '', $number);
+
+        if (is_string($allowTypes)) {
+            $type = $allowTypes;
+        } else {
+            $type = self::creditCardType($number);
+        }
+
+        if (empty($type) || (is_array($allowTypes) && !in_array($type, $allowTypes))) {
+            throw new CreditCardTypeException(sprintf('Type "%s" card is not allowed', $type));
+        }
+
+        if (!self::validPattern($number, $type)) {
+            throw new CreditCardPatternException(sprintf('Wrong "%s" card pattern', $number));
+        }
+
+        if (!self::validLength($number, $type)) {
+            throw new CreditCardLengthException(sprintf('Incorrect "%s" card length', $number));
+        }
+
+        if (!self::validLuhn($number, $type)) {
+            throw new CreditCardLuhnException(sprintf('Invalid card number: "%s". Checksum is wrong', $number));
+        }
     }
 
     public static function validCvc($cvc, $type)
