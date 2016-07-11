@@ -51,6 +51,13 @@ class CreditCard
             'cvcLength' => array(3),
             'luhn' => true,
         ),
+        'hipercard' => array(
+            'type' => 'hipercard',
+            'pattern' => '/^(606282\d{10}(\d{3})?)|(3841\d{15})$/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
         'mastercard' => array(
             'type' => 'mastercard',
             'pattern' => '/^(5[0-5]|2[2-7])/',

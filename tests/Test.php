@@ -65,6 +65,11 @@ class Test extends PHPUnit_Framework_TestCase
             '3530111333300000',
             '3566002020360505',
         ),
+        'hipercard' => array(
+            '6062824440692130',
+            '6062822921732946',
+            '6062827980339442',
+        )
     );
 
     public function testCardsTypes()
