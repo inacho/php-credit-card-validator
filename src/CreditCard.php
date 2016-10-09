@@ -53,7 +53,7 @@ class CreditCard
         ),
         'mastercard' => array(
             'type' => 'mastercard',
-            'pattern' => '/^(5[0-5]|2[2-7])/',
+            'pattern' => '/^(5[0-5]|2(2(2[1-9]|[3-9])|[3-6]|7(0|1|20)))/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
