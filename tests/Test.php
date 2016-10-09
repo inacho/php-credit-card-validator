@@ -39,6 +39,28 @@ class Test extends PHPUnit_Framework_TestCase
             '5555555555554444',
             '5454545454545454',
             '2221000002222221',
+            '2222000000000008',
+            '2223000000000007',
+            '2224000000000006',
+            '2225000000000005',
+            '2226000000000004',
+            '2227000000000003',
+            '2228000000000002',
+            '2229000000000001',
+            '2230000000000008',
+            '2240000000000006',
+            '2250000000000003',
+            '2260000000000001',
+            '2270000000000009',
+            '2280000000000007',
+            '2290000000000005',
+            '2300000000000003',
+            '2400000000000002',
+            '2500000000000001',
+            '2600000000000000',
+            '2700000000000009',
+            '2710000000000007',
+            '2720999999999996',
         ),
         'amex' => array(
             '378282246310005',
@@ -67,6 +89,14 @@ class Test extends PHPUnit_Framework_TestCase
         ),
     );
 
+    protected $invalidCards = array(
+        'mastercard' => array(
+            '2220000000000000',
+            '2721000000000004',
+        ),
+    );
+
+
     public function testCardsTypes()
     {
         foreach ($this->validCards as $type => $numbers) {
@@ -75,6 +105,13 @@ class Test extends PHPUnit_Framework_TestCase
 
                 $this->assertEquals(true, $result['valid'], 'Invalid card, expected valid. Type: ' . $type . ', Number: ' . $number);
                 $this->assertEquals($type, $result['type'], 'Invalid type. Number: ' . $number . ', Expected: ' . $type . ', Actual: ' . $result['type']);
+            }
+        }
+
+        foreach ($this->invalidCards as $type => $numbers) {
+            foreach ($numbers as $number) {
+                $result = CreditCard::validCreditCard($number);
+                $this->assertNotEquals($type, $result['type'], 'Invalid type. Number: ' . $number . ', Should not be: ' . $type . ', Actual: ' . $result['type']);
             }
         }
     }
