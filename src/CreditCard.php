@@ -44,6 +44,13 @@ class CreditCard
             'luhn' => true,
         ),
         // Credit cards
+        'verve' => array(
+            'type' => 'verve',
+            'pattern' => '/^(506[0-1]|6500[0-2])/',
+            'length' => array(16, 19),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
         'visa' => array(
             'type' => 'visa',
             'pattern' => '/^4/',
@@ -93,7 +100,8 @@ class CreditCard
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
-        ),
+        )
+        
     );
 
     public static function validCreditCard($number, $type = null)

@@ -65,6 +65,9 @@ class Test extends PHPUnit_Framework_TestCase
             '3530111333300000',
             '3566002020360505',
         ),
+        'verve' => array(
+            '5060 6666 6666 6666 666',
+        ),
     );
 
     public function testCardsTypes()
