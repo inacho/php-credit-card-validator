@@ -46,7 +46,7 @@ class CreditCard
         // Credit cards
         'hipercard' => array(
             'type' => 'hipercard',
-            'pattern' => '/^((606282|637095|637568)[0-9]{10}|38[0-9]{14,17})$$/',
+            'pattern' => '/^((606282|637568)[0-9]{10}|38[0-9]{14,17})$$/',
             'length' => array(13, 16, 19),
             'cvcLength' => array(3),
             'luhn' => true,
