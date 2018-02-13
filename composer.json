@@ -15,7 +15,7 @@
         "lib-pcre": ">=7.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.7.*"
+        "phpunit/phpunit": "4.*"
     },
     "autoload": {
         "psr-4": {

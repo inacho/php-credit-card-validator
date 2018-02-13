@@ -25,7 +25,7 @@ class CreditCard
         'maestro' => array(
             'type' => 'maestro',
             'pattern' => '/^(5(018|0[23]|[68])|6(39|7))/',
-            'length' => array(12, 13, 14, 15, 16, 17, 18, 19),
+            'length' => array(16, 17, 18),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
@@ -47,7 +47,7 @@ class CreditCard
         'visa' => array(
             'type' => 'visa',
             'pattern' => '/^4/',
-            'length' => array(13, 16),
+            'length' => array(13, 16, 19),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
@@ -69,21 +69,21 @@ class CreditCard
         'dinersclub' => array(
             'type' => 'dinersclub',
             'pattern' => '/^3[0689]/',
-            'length' => array(14),
+            'length' => array(14, 19),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
         'discover' => array(
             'type' => 'discover',
             'pattern' => '/^6([045]|22)/',
-            'length' => array(16),
+            'length' => array(16, 19),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
         'unionpay' => array(
             'type' => 'unionpay',
             'pattern' => '/^(62|88)/',
-            'length' => array(16, 17, 18, 19),
+            'length' => array(15, 16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => false,
         ),
