@@ -139,7 +139,7 @@ class Test extends TestCase
         $this->assertEquals(false, CreditCard::validDate(date('Y', $timestamp) - 1, date('m', $timestamp)));
 
         // Current year, past month
-        $timestamp = strtotime('-1 month');
+        $timestamp = strtotime('last day of last month');
         $this->assertEquals(false, CreditCard::validDate(date('Y', $timestamp), date('m', $timestamp)));
 
         // Current year, current month
