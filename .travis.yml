@@ -1,15 +1,17 @@
 language: php
-
 php:
-  - 5.3
-  - 5.4
-  - 5.5
   - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
 
-before_script:
-  - composer install
-  - composer require satooshi/php-coveralls --prefer-dist
+install:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
+  - php composer.phar require --dev php-coveralls/php-coveralls
+script:
+  - mkdir -p build/logs
+  - php vendor/bin/phpunit
 
-script: phpunit
-
-after_script: php vendor/bin/coveralls -v
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
