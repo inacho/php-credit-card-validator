@@ -12,96 +12,96 @@ namespace Inacho;
 
 class CreditCard
 {
-    protected static $cards = array(
+    protected static $cards = [
         // Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
 
-        'visaelectron' => array(
+        'visaelectron' => [
             'type' => 'visaelectron',
             'pattern' => '/^4(026|17500|405|508|844|91[37])/',
-            'length' => array(16),
-            'cvcLength' => array(3),
+            'length' => [16],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-        'maestro' => array(
+        ],
+        'maestro' => [
             'type' => 'maestro',
             'pattern' => '/^(5(018|0[23]|[68])|6(39|7))/',
-            'length' => array(12, 13, 14, 15, 16, 17, 18, 19),
-            'cvcLength' => array(3),
+            'length' => [12, 13, 14, 15, 16, 17, 18, 19],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-        'forbrugsforeningen' => array(
+        ],
+        'forbrugsforeningen' => [
             'type' => 'forbrugsforeningen',
             'pattern' => '/^600/',
-            'length' => array(16),
-            'cvcLength' => array(3),
+            'length' => [16],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-        'dankort' => array(
+        ],
+        'dankort' => [
             'type' => 'dankort',
             'pattern' => '/^5019/',
-            'length' => array(16),
-            'cvcLength' => array(3),
+            'length' => [16],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
+        ],
         // Credit cards
-        'visa' => array(
+        'visa' => [
             'type' => 'visa',
             'pattern' => '/^4/',
-            'length' => array(13, 16),
-            'cvcLength' => array(3),
+            'length' => [13, 16],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-        'mastercard' => array(
+        ],
+        'mastercard' => [
             'type' => 'mastercard',
             'pattern' => '/^(5[0-5]|2[2-7])/',
-            'length' => array(16),
-            'cvcLength' => array(3),
+            'length' => [16],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-        'amex' => array(
+        ],
+        'amex' => [
             'type' => 'amex',
             'pattern' => '/^3[47]/',
             'format' => '/(\d{1,4})(\d{1,6})?(\d{1,5})?/',
-            'length' => array(15),
-            'cvcLength' => array(3, 4),
+            'length' => [15],
+            'cvcLength' => [3, 4],
             'luhn' => true,
-        ),
-        'dinersclub' => array(
+        ],
+        'dinersclub' => [
             'type' => 'dinersclub',
             'pattern' => '/^3[0689]/',
-            'length' => array(14),
-            'cvcLength' => array(3),
+            'length' => [14],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-        'discover' => array(
+        ],
+        'discover' => [
             'type' => 'discover',
             'pattern' => '/^6([045]|22)/',
-            'length' => array(16),
-            'cvcLength' => array(3),
+            'length' => [16],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-        'unionpay' => array(
+        ],
+        'unionpay' => [
             'type' => 'unionpay',
             'pattern' => '/^(62|88)/',
-            'length' => array(16, 17, 18, 19),
-            'cvcLength' => array(3),
+            'length' => [16, 17, 18, 19],
+            'cvcLength' => [3],
             'luhn' => false,
-        ),
-        'jcb' => array(
+        ],
+        'jcb' => [
             'type' => 'jcb',
             'pattern' => '/^35/',
-            'length' => array(16),
-            'cvcLength' => array(3),
+            'length' => [16],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-        'elo' => array(
+        ],
+        'elo' => [
             'type' => 'elo',
             'pattern' => '/^((50670[7-8])|(506715)|(50671[7-9])|(50672[0-1])|(50672[4-9])|(50673[0-3])|(506739)|(50674[0-8])|(50675[0-3])|(50677[4-8])|(50900[0-9])|(50901[3-9])|(50902[0-9])|(50903[1-9])|(50904[0-9])|(50905[0-9])|(50906[0-4])|(50906[6-9])|(50907[0-2])|(50907[4-5])|(636368)|(636297)|(504175)|(438935)|(40117[8-9])|(45763[1-2])|(457393)|(431274)|(50907[6-9])|(50908[0-9])|(627780))/',
-            'length' => array(16),
-            'cvcLength' => array(3),
+            'length' => [16],
+            'cvcLength' => [3],
             'luhn' => true,
-        ),
-    );
+        ],
+    ];
 
     public static function validCreditCard($number, $type = null)
     {

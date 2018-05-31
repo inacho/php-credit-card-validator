@@ -1,8 +1,9 @@
 <?php
 
 use Inacho\CreditCard;
+use PHPUnit\Framework\TestCase;
 
-class Test extends PHPUnit_Framework_TestCase
+class Test extends TestCase
 {
     // card numbers of visa, mastercard, amex, dinersclub, discover and jcb taken from:
     // https://www.paypalobjects.com/en_US/vhelp/paypalmanager_help/credit_card_numbers.htm
@@ -10,65 +11,65 @@ class Test extends PHPUnit_Framework_TestCase
     // Card numbers of visaelectron, maestro and dankort taken from:
     // http://support.worldpay.com/support/kb/bg/testandgolive/tgl5103.html
 
-    protected $validCards = array(
+    protected $validCards = [
 
         // Debit cards
-        'visaelectron' => array(
+        'visaelectron' => [
             '4917300800000000',
-        ),
-        'maestro' => array(
+        ],
+        'maestro' => [
             '6759649826438453',
             '6799990100000000019',
-        ),
-        'forbrugsforeningen' => array(
+        ],
+        'forbrugsforeningen' => [
             '6007220000000004',
-        ),
-        'dankort' => array(
+        ],
+        'dankort' => [
             '5019717010103742',
-        ),
+        ],
 
         // Credit cards
-        'visa' => array(
+        'visa' => [
             '4111111111111111',
             '4012888888881881',
             '4222222222222',
             '4462030000000000',
             '4484070000000000',
-        ),
-        'mastercard' => array(
+        ],
+        'mastercard' => [
             '5555555555554444',
             '5454545454545454',
             '2221000002222221',
-        ),
-        'amex' => array(
+        ],
+        'amex' => [
             '378282246310005',
             '371449635398431',
             '378734493671000', // American Express Corporate
-        ),
-        'dinersclub' => array(
+        ],
+        'dinersclub' => [
             '30569309025904',
             '38520000023237',
             '36700102000000',
             '36148900647913',
-        ),
-        'discover' => array(
+        ],
+        'discover' => [
             '6011111111111117',
             '6011000990139424',
-        ),
-        'unionpay' => array(
+        ],
+        'unionpay' => [
             '6271136264806203568',
             '6236265930072952775',
             '6204679475679144515',
             '6216657720782466507',
-        ),
-        'jcb' => array(
+        ],
+        'jcb' => [
             '3530111333300000',
             '3566002020360505',
-        ),
-        'elo' => array(
-            '6363693465728293',
-        ),
-    );
+        ],
+        'elo' => [
+            '6362970409269944',
+        ],
+    ];
 
     public function testCardsTypes()
     {
