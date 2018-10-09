@@ -35,6 +35,9 @@ class Test extends PHPUnit_Framework_TestCase
             '4462030000000000',
             '4484070000000000',
         ),
+        CreditCard::TYPE_MIR => array(
+            '2200654321000000',
+        ),
         CreditCard::TYPE_MASTERCARD => array(
             '5555555555554444',
             '5454545454545454',

@@ -26,6 +26,7 @@ class CreditCard
     const TYPE_JCB = 'jcb';
     const TYPE_MAESTRO = 'maestro';
     const TYPE_MASTERCARD = 'mastercard';
+    const TYPE_MIR = 'mir';
     const TYPE_UNION_PAY = 'unionpay';
     const TYPE_VISA = 'visa';
     const TYPE_VISA_ELECTRON = 'visaelectron';
@@ -66,6 +67,13 @@ class CreditCard
             'type' => self::TYPE_VISA,
             'pattern' => '/^4/',
             'length' => array(13, 16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        self::TYPE_MIR => array(
+            'type' => self::TYPE_MIR,
+            'pattern' => '/^220[0-4]/',
+            'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
