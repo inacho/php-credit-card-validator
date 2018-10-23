@@ -96,6 +96,14 @@ class CreditCard
         ),
     );
 
+    /**
+     * Validate credit card number
+     *
+     * @param  string|int $number
+     * @param string      $type
+     *
+     * @return array
+     */
     public static function validCreditCard($number, $type = null)
     {
         $ret = array(
@@ -122,11 +130,27 @@ class CreditCard
         return $ret;
     }
 
+    /**
+     * Validate card cvc code
+     *
+     * @param string|int $cvc
+     * @param string     $type
+     *
+     * @return bool
+     */
     public static function validCvc($cvc, $type)
     {
         return (ctype_digit($cvc) && array_key_exists($type, self::$cards) && self::validCvcLength($cvc, $type));
     }
 
+    /**
+     * Validate card experience date
+     *
+     * @param string|int $year
+     * @param string|int $month
+     *
+     * @return bool
+     */
     public static function validDate($year, $month)
     {
         $month = str_pad($month, 2, '0', STR_PAD_LEFT);
