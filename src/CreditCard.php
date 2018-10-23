@@ -43,6 +43,13 @@ class CreditCard
             'cvcLength' => array(3),
             'luhn' => true,
         ),
+        'mir' => array(
+            'type' => 'mir',
+            'pattern' => '/^220[0-4]/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
         // Credit cards
         'visa' => array(
             'type' => 'visa',
