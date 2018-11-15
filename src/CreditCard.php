@@ -127,9 +127,9 @@ class CreditCard
         }
 
         $ret['validation'] = array(
-            'pattern' => (bool)self::validPattern($number, $type),
-            'length' => self::validLength($number, $type),
-            'luhn' => self::validLuhn($number, $type),
+            'pattern' => !empty($type) && self::validPattern($number, $type),
+            'length' => !empty($type) && self::validLength($number, $type),
+            'luhn' => !empty($type) && self::validLuhn($number, $type),
         );
 
         return $ret;
