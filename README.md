@@ -1,6 +1,6 @@
 # PHP Credit Card Validator
 
-[![Build Status](https://travis-ci.org/inacho/php-credit-card-validator.svg?branch=master)](https://travis-ci.org/inacho/php-credit-card-validator) [![Coverage Status](https://coveralls.io/repos/inacho/php-credit-card-validator/badge.svg?branch=master&service=github)](https://coveralls.io/github/inacho/php-credit-card-validator?branch=master) [![Latest Stable Version](https://poser.pugx.org/inacho/php-credit-card-validator/version)](https://packagist.org/packages/inacho/php-credit-card-validator) [![Total Downloads](https://poser.pugx.org/inacho/php-credit-card-validator/downloads)](https://packagist.org/packages/inacho/php-credit-card-validator)
+[![Build Status](https://travis-ci.org/freelancehunt/php-credit-card-validator.svg?branch=master)](https://travis-ci.org/freelancehunt/php-credit-card-validator) [![Coverage Status](https://coveralls.io/repos/freelancehunt/php-credit-card-validator/badge.svg?branch=master&service=github)](https://coveralls.io/github/freelancehunt/php-credit-card-validator?branch=master) [![Latest Stable Version](https://poser.pugx.org/freelancehunt/php-credit-card-validator/version)](https://packagist.org/packages/freelancehunt/php-credit-card-validator) [![Total Downloads](https://poser.pugx.org/freelancehunt/php-credit-card-validator/downloads)](https://packagist.org/packages/freelancehunt/php-credit-card-validator)
 
 Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm.
 Also validates the CVC and the expiration date.
@@ -11,24 +11,9 @@ Require the package in `composer.json`
 
 ```json
 "require": {
-    "inacho/php-credit-card-validator": "1.*"
+    "freelancehunt/php-credit-card-validator": "1.*"
 },
 ```
-
-If you are using Laravel, add an alias in `config/app.php`
-
-```php
-'aliases' => array(
-
-    'App'             => 'Illuminate\Support\Facades\App',
-    ...
-    'View'            => 'Illuminate\Support\Facades\View',
-
-    'CreditCard'      => 'Inacho\CreditCard',
-
-),
-```
-
 ## Usage
 
 ### Validate a card number knowing the type:

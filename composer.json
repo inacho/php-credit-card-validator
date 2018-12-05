@@ -1,25 +1,38 @@
 {
-    "name": "inacho/php-credit-card-validator",
+    "name": "freelancehunt/php-credit-card-validator",
     "type": "library",
-    "description": "Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm. Also validates the CVC and the expiration date",
-    "keywords": ["creditcard", "creditcards", "debit", "credit", "card", "cards", "validator", "cvc", "laravel"],
+    "description": "Validates popular debit and credit cards' numbers against regular expressions and Luhn algorithm. Also validates the CVC and the expiration date.",
+    "keywords": ["creditcard", "debit", "credit", "card", "validator", "cvc", "payment"],
     "license": "MIT",
     "authors": [
         {
             "name": "Ignacio de Tomás",
             "email": "nacho@inacho.es"
+        },
+        {
+            "name": "Oleg Topchiy",
+            "email": "edge@freelancehunt.com"
+        },
+        {
+            "name": "Vitaliy Misko",
+            "email": "vitaliy@freelancehunt.com"
+        },
+        {
+            "name": "Yaroslav Molchan",
+            "email": "yaroslav@freelancehunt.com"
         }
     ],
     "require": {
-        "php": ">=5.3.0",
-        "lib-pcre": ">=7.3"
+        "php": "^7",
+        "lib-pcre": ">=8.37",
+        "ext-ctype": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.7.*"
+        "phpunit/phpunit": "^6"
     },
     "autoload": {
         "psr-4": {
-            "Inacho\\": "src/"
+            "Freelancehunt\\CreditCardValidator\\": "src/"
         }
     }
 }
