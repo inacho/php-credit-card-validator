@@ -8,8 +8,8 @@ php:
 
 before_script:
   - composer install
-  - composer require satooshi/php-coveralls --prefer-dist
 
 script: phpunit
 
-after_script: php vendor/bin/coveralls -v
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
