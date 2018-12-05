@@ -55,7 +55,7 @@ class CreditCard
         ],
         'mastercard'         => [
             'type'      => 'mastercard',
-            'pattern'   => '/^(5[0-5]|2[2-7])/',
+            'pattern'   => '/^(5[0-5]|(222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720))/', // 2221-2720, 51-55
             'length'    => [16],
             'cvcLength' => [3],
             'luhn'      => true,

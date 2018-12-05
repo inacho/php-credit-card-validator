@@ -5,7 +5,7 @@ use Freelancehunt\CreditCardValidator\CreditCard;
 class CreditCardTest extends \PHPUnit\Framework\TestCase
 {
     // card numbers of visa, mastercard, amex, dinersclub, discover and jcb taken from:
-    // https://www.paypalobjects.com/en_US/vhelp/paypalmanager_help/credit_card_numbers.htm
+    // https://www.paypalobjects.com/en_GB/vhelp/paypalmanager_help/credit_card_numbers.htm
 
     // Card numbers of visaelectron, maestro and dankort taken from:
     // http://support.worldpay.com/support/kb/bg/testandgolive/tgl5103.html
@@ -39,6 +39,8 @@ class CreditCardTest extends \PHPUnit\Framework\TestCase
             '5555555555554444',
             '5454545454545454',
             '2221000002222221',
+            '2223000010089800',
+            '2223000048400011',
         ],
         'amex' => [
             '378282246310005',
