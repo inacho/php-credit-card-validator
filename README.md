@@ -7,7 +7,10 @@
 Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm.
 Also validates the CVC and the expiration date.
 
-## Installation
+Since original project seems to be abandoned, we plan to maintain this fork. 
+
+# Requirements
+PHP 7.1+. We don't plan to support [EOL](http://php.net/supported-versions.php) PHP versions.  
 
 Require the package in `composer.json`
 
