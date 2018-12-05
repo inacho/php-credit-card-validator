@@ -1,13 +1,13 @@
 <?php
 
-namespace Freelancehunt\CreditCardValidator;
+namespace Freelancehunt;
 
 /**
  * Class CreditCard.
  * Validates popular debit and credit cards' numbers against regular expressions and Luhn algorithm.
  * Also validates the CVC and the expiration date.
  *
- * @package   Freelancehunt\CreditCardValidator
+ * @package   Freelancehunt
  *
  * @author    Ignacio de Tomás <nacho@inacho.es>
  * @copyright 2014 Ignacio de Tomás (http://inacho.es)
