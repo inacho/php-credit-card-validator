@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false" bootstrap="vendor/autoload.php">
+<phpunit backupGlobals="false" bootstrap="vendor/autoload.php" colors="true">
   <testsuites>
-    <testsuite name="PHP_CodeCoverage">
-      <directory>tests</directory>
+    <testsuite name="Unit Tests">
+      <directory suffix="Test.php">./tests</directory>
     </testsuite>
   </testsuites>
 
@@ -14,7 +14,7 @@
 
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">src</directory>
+      <directory suffix=".php">./src</directory>
     </whitelist>
   </filter>
 </phpunit>
