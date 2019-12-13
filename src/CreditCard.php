@@ -174,6 +174,17 @@ class CreditCard
         return '';
     }
 
+    /**
+     * @param string $bin
+     * @return string|null
+     */
+    public static function determineCreditCardType($bin)
+    {
+        $type = self::creditCardType($bin);
+
+        return !empty($type) ? $type : null;
+    }
+
     protected static function validCard($number, $type)
     {
         return (self::validPattern($number, $type) && self::validLength($number, $type) && self::validLuhn($number, $type));
