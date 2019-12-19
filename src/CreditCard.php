@@ -89,7 +89,7 @@ class CreditCard
         ),
         'unionpay' => array(
             'type' => 'unionpay',
-            'pattern' => '/^(62|88)/',
+            'pattern' => '/^(62|81)/',
             'length' => array(16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => false,
@@ -97,6 +97,20 @@ class CreditCard
         'jcb' => array(
             'type' => 'jcb',
             'pattern' => '/^35/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        'uatp' => array(
+            'type' => 'uatp',
+            'pattern' => '/^1/',
+            'length' => array(15),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        'rupay' => array(
+            'type' => 'rupay',
+            'pattern' => '/^(60|6521|6522)/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
