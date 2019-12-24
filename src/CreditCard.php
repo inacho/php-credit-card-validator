@@ -10,11 +10,17 @@
 
 namespace Inacho;
 
+/**
+ * Class CreditCard
+ * @package Inacho
+ */
 class CreditCard
 {
+    /**
+     * Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
+     * @var array
+     */
     protected static $cards = array(
-        // Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
-
         'visaelectron' => array(
             'type' => 'visaelectron',
             'pattern' => '/^4(026|17500|405|508|844|91[37])/',
@@ -117,6 +123,12 @@ class CreditCard
         ),
     );
 
+    /**
+     * @param string $number
+     * @param  null  $type
+     *
+     * @return array
+     */
     public static function validCreditCard($number, $type = null)
     {
         $ret = array(
@@ -149,11 +161,23 @@ class CreditCard
         return $ret;
     }
 
+    /**
+     * @param string $cvc
+     * @param string $type
+     *
+     * @return bool
+     */
     public static function validCvc($cvc, $type)
     {
         return (ctype_digit($cvc) && array_key_exists($type, self::$cards) && self::validCvcLength($cvc, $type));
     }
 
+    /**
+     * @param int $year
+     * @param int $month
+     *
+     * @return bool
+     */
     public static function validDate($year, $month)
     {
         $month = str_pad($month, 2, '0', STR_PAD_LEFT);
@@ -174,9 +198,11 @@ class CreditCard
         return true;
     }
 
-    // PROTECTED
-    // ---------------------------------------------------------
-
+    /**
+     * @param string $number
+     *
+     * @return int|string
+     */
     protected static function creditCardType($number)
     {
         foreach (self::$cards as $type => $card) {
@@ -190,6 +216,7 @@ class CreditCard
 
     /**
      * @param string $bin
+     *
      * @return string|null
      */
     public static function determineCreditCardType($bin)
@@ -199,16 +226,34 @@ class CreditCard
         return !empty($type) ? $type : null;
     }
 
+    /**
+     * @param string $number
+     * @param string $type
+     *
+     * @return bool
+     */
     protected static function validCard($number, $type)
     {
         return (self::validPattern($number, $type) && self::validLength($number, $type) && self::validLuhn($number, $type));
     }
 
+    /**
+     * @param string $number
+     * @param string $type
+     *
+     * @return false|int
+     */
     protected static function validPattern($number, $type)
     {
         return preg_match(self::$cards[$type]['pattern'], $number);
     }
 
+    /**
+     * @param string $number
+     * @param string $type
+     *
+     * @return bool
+     */
     protected static function validLength($number, $type)
     {
         foreach (self::$cards[$type]['length'] as $length) {
@@ -220,6 +265,12 @@ class CreditCard
         return false;
     }
 
+    /**
+     * @param string $cvc
+     * @param string $type
+     *
+     * @return bool
+     */
     protected static function validCvcLength($cvc, $type)
     {
         foreach (self::$cards[$type]['cvcLength'] as $length) {
@@ -231,6 +282,12 @@ class CreditCard
         return false;
     }
 
+    /**
+     * @param string $number
+     * @param string $type
+     *
+     * @return bool
+     */
     protected static function validLuhn($number, $type)
     {
         if (! self::$cards[$type]['luhn']) {
@@ -240,6 +297,11 @@ class CreditCard
         }
     }
 
+    /**
+     * @param string $number
+     *
+     * @return bool
+     */
     protected static function luhnCheck($number)
     {
         $checksum = 0;
