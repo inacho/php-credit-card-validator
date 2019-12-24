@@ -26,6 +26,13 @@ class Test extends PHPUnit_Framework_TestCase
         'dankort' => array(
             '5019717010103742',
         ),
+        'mir' => array(
+            '2200524572467853',
+            '2201338708835472',
+            '2202410737880339',
+            '2203027541752030',
+            '2204500360586886',
+        ),
 
         // Credit cards
         'visa' => array(
