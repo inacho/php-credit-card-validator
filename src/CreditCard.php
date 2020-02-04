@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Validates popular debit and credit cards numbers against regular expressions and Luhn algorithm.
- * Also validates the CVC and the expiration date.
- *
- * @author    Ignacio de Tomás <nacho@inacho.es>
- * @copyright 2014 Ignacio de Tomás (http://inacho.es)
- */
-
 namespace Inacho;
 
 class CreditCard
@@ -206,12 +198,12 @@ class CreditCard
     {
         $checksum = 0;
         for ($i=(2-(strlen($number) % 2)); $i<=strlen($number); $i+=2) {
-            $checksum += (int) ($number{$i-1});
+            $checksum += (int) ($number[$i-1]);
         }
 
         // Analyze odd digits in even length strings or even digits in odd length strings.
         for ($i=(strlen($number)% 2) + 1; $i<strlen($number); $i+=2) {
-            $digit = (int) ($number{$i-1}) * 2;
+            $digit = (int) ($number[$i-1]) * 2;
             if ($digit < 10) {
                 $checksum += $digit;
             } else {
