@@ -12,7 +12,7 @@ namespace Inacho;
 
 class CreditCard
 {
-    protected static array $cards = array(
+    protected static $cards = array(
         // Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
 
         'visaelectron' => array(
