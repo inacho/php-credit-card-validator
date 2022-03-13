@@ -11,7 +11,7 @@ Require the package in `composer.json`
 
 ```json
 "require": {
-    "inacho/php-credit-card-validator": "1.*"
+    "habil/php-credit-card-validator": "1.*"
 },
 ```
 
@@ -24,7 +24,7 @@ If you are using Laravel, add an alias in `config/app.php`
     ...
     'View'            => 'Illuminate\Support\Facades\View',
 
-    'CreditCard'      => 'Inacho\CreditCard',
+    'CreditCard'      => 'Sivax\CreditCard',
 
 ),
 ```
@@ -98,3 +98,6 @@ bool(false)
 Execute the following command to run the unit tests:
 
     vendor/bin/phpunit
+
+### Disclaimer
+Many thanks to [inacho](https://github.com/inacho "inacho"). This repository based on it's [PHP Credit Card Validator](https://github.com/inacho/php-credit-card-validator "PHP Credit Card Validator") repository.
