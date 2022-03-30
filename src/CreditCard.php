@@ -8,13 +8,19 @@
  * @copyright 2014 Ignacio de Tomás (http://inacho.es)
  */
 
-namespace Inacho;
+namespace Sivax;
 
+/**
+ * Class CreditCard
+ * @package Sivax
+ */
 class CreditCard
 {
+    /**
+     * Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
+     * @var array
+     */
     protected static $cards = array(
-        // Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
-
         'visaelectron' => array(
             'type' => 'visaelectron',
             'pattern' => '/^4(026|17500|405|508|844|91[37])/',
@@ -39,6 +45,13 @@ class CreditCard
         'dankort' => array(
             'type' => 'dankort',
             'pattern' => '/^5019/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        'mir' => array(
+            'type' => 'mir',
+            'pattern' => '/^220[0-4]/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
@@ -82,7 +95,7 @@ class CreditCard
         ),
         'unionpay' => array(
             'type' => 'unionpay',
-            'pattern' => '/^(62|88)/',
+            'pattern' => '/^(62|81)/',
             'length' => array(16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => false,
@@ -94,8 +107,28 @@ class CreditCard
             'cvcLength' => array(3),
             'luhn' => true,
         ),
+        'uatp' => array(
+            'type' => 'uatp',
+            'pattern' => '/^1/',
+            'length' => array(15),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        'rupay' => array(
+            'type' => 'rupay',
+            'pattern' => '/^(60|6521|6522)/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
     );
 
+    /**
+     * @param  string  $number
+     * @param  null  $type
+     *
+     * @return array
+     */
     public static function validCreditCard($number, $type = null)
     {
         $ret = array(
@@ -119,23 +152,41 @@ class CreditCard
             );
         }
 
+        $ret['validation'] = array(
+            'pattern' => !empty($type) && self::validPattern($number, $type),
+            'length' => !empty($type) && self::validLength($number, $type),
+            'luhn' => !empty($type) && self::validLuhn($number, $type),
+        );
+
         return $ret;
     }
 
+    /**
+     * @param  string  $cvc
+     * @param  string  $type
+     *
+     * @return bool
+     */
     public static function validCvc($cvc, $type)
     {
         return (ctype_digit($cvc) && array_key_exists($type, self::$cards) && self::validCvcLength($cvc, $type));
     }
 
+    /**
+     * @param  int  $year
+     * @param  int  $month
+     *
+     * @return bool
+     */
     public static function validDate($year, $month)
     {
         $month = str_pad($month, 2, '0', STR_PAD_LEFT);
 
-        if (! preg_match('/^20\d\d$/', $year)) {
+        if (!preg_match('/^20\d\d$/', $year)) {
             return false;
         }
 
-        if (! preg_match('/^(0[1-9]|1[0-2])$/', $month)) {
+        if (!preg_match('/^(0[1-9]|1[0-2])$/', $month)) {
             return false;
         }
 
@@ -147,9 +198,11 @@ class CreditCard
         return true;
     }
 
-    // PROTECTED
-    // ---------------------------------------------------------
-
+    /**
+     * @param  string  $number
+     *
+     * @return string
+     */
     protected static function creditCardType($number)
     {
         foreach (self::$cards as $type => $card) {
@@ -161,16 +214,47 @@ class CreditCard
         return '';
     }
 
-    protected static function validCard($number, $type)
+    /**
+     * @param  string  $bin
+     *
+     * @return string|null
+     */
+    public static function determineCreditCardType($bin)
     {
-        return (self::validPattern($number, $type) && self::validLength($number, $type) && self::validLuhn($number, $type));
+        $type = self::creditCardType($bin);
+
+        return !empty($type) ? $type : null;
     }
 
+    /**
+     * @param  string  $number
+     * @param  string  $type
+     *
+     * @return bool
+     */
+    protected static function validCard($number, $type)
+    {
+        return (self::validPattern($number, $type) && self::validLength($number, $type) && self::validLuhn($number,
+                $type));
+    }
+
+    /**
+     * @param  string  $number
+     * @param  string  $type
+     *
+     * @return false|int
+     */
     protected static function validPattern($number, $type)
     {
         return preg_match(self::$cards[$type]['pattern'], $number);
     }
 
+    /**
+     * @param  string  $number
+     * @param  string  $type
+     *
+     * @return bool
+     */
     protected static function validLength($number, $type)
     {
         foreach (self::$cards[$type]['length'] as $length) {
@@ -182,6 +266,12 @@ class CreditCard
         return false;
     }
 
+    /**
+     * @param  string  $cvc
+     * @param  string  $type
+     *
+     * @return bool
+     */
     protected static function validCvcLength($cvc, $type)
     {
         foreach (self::$cards[$type]['cvcLength'] as $length) {
@@ -193,29 +283,40 @@ class CreditCard
         return false;
     }
 
+    /**
+     * @param  string  $number
+     * @param  string  $type
+     *
+     * @return bool
+     */
     protected static function validLuhn($number, $type)
     {
-        if (! self::$cards[$type]['luhn']) {
+        if (!self::$cards[$type]['luhn']) {
             return true;
         } else {
             return self::luhnCheck($number);
         }
     }
 
+    /**
+     * @param  string  $number
+     *
+     * @return bool
+     */
     protected static function luhnCheck($number)
     {
         $checksum = 0;
-        for ($i=(2-(strlen($number) % 2)); $i<=strlen($number); $i+=2) {
-            $checksum += (int) ($number{$i-1});
+        for ($i = (2 - (strlen($number) % 2)); $i <= strlen($number); $i += 2) {
+            $checksum += (int) ($number{$i - 1});
         }
 
         // Analyze odd digits in even length strings or even digits in odd length strings.
-        for ($i=(strlen($number)% 2) + 1; $i<strlen($number); $i+=2) {
-            $digit = (int) ($number{$i-1}) * 2;
+        for ($i = (strlen($number) % 2) + 1; $i < strlen($number); $i += 2) {
+            $digit = (int) ($number{$i - 1}) * 2;
             if ($digit < 10) {
                 $checksum += $digit;
             } else {
-                $checksum += ($digit-9);
+                $checksum += ($digit - 9);
             }
         }
 
