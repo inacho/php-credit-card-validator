@@ -174,31 +174,48 @@ class CreditCard
         return true;
     }
 
-    // PROTECTED
-    // ---------------------------------------------------------
-
-    protected static function creditCardType($number)
+    /**
+     * @param string      $number
+     * @param string|null $preferBrand
+     *
+     * @return string
+     */
+    protected static function creditCardType($number, $preferBrand = null)
     {
+        $matched = [];
+
         foreach (self::$cards as $type => $card) {
             if (preg_match($card['pattern'], $number)) {
-                return $type;
+                $matched[] = $type;
             }
         }
 
-        return '';
+        if (!empty($preferBrand) && in_array($preferBrand, $matched)) {
+            return $preferBrand;
+        }
+
+        return isset($matched[0]) ? $matched[0] : '';
     }
 
     /**
-     * @param string $bin
-     * @return string|null
+     * @param string      $bin
+     * @param string|null $preferBrand
+     *
+     * @return null|string
      */
-    public static function determineCreditCardType($bin)
+    public static function determineCreditCardType($bin, $preferBrand = null)
     {
-        $type = self::creditCardType($bin);
+        $type = self::creditCardType($bin, $preferBrand);
 
         return !empty($type) ? $type : null;
     }
 
+    /**
+     * @param $number
+     * @param $type
+     *
+     * @return bool
+     */
     protected static function validCard($number, $type)
     {
         return (self::validPattern($number, $type) && self::validLength($number, $type) && self::validLuhn($number, $type));
