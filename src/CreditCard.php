@@ -28,6 +28,7 @@ class CreditCard
     const TYPE_MASTERCARD = 'mastercard';
     const TYPE_MIR = 'mir';
     const TYPE_UNION_PAY = 'unionpay';
+    const TYPE_UZCARD = 'uzcard';
     const TYPE_VISA = 'visa';
     const TYPE_VISA_ELECTRON = 'visaelectron';
 
@@ -112,6 +113,13 @@ class CreditCard
             'length' => array(16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => false,
+        ),
+        self::TYPE_UZCARD => array(
+            'type' => self::TYPE_UZCARD,
+            'pattern' => '/^8600/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
         ),
         self::TYPE_JCB => array(
             'type' => self::TYPE_JCB,
