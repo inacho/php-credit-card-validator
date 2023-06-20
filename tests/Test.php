@@ -65,7 +65,8 @@ class Test extends PHPUnit_Framework_TestCase
             '6216657720782466507',
         ),
         CreditCard::TYPE_UZCARD => array(
-            '8600030488124235',
+        ),
+        CreditCard::TYPE_HUMO => array(
         ),
         CreditCard::TYPE_JCB => array(
             '3530111333300000',
