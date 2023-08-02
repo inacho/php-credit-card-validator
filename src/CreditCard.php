@@ -97,7 +97,7 @@ class CreditCard
         'jcb' => array(
             'type' => 'jcb',
             'pattern' => '/^35/',
-            'length' => array(16),
+            'length' => array(16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
