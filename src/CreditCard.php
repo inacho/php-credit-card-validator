@@ -10,85 +10,127 @@
 
 namespace Inacho;
 
+use Inacho\Exception\CreditCardException;
+use Inacho\Exception\CreditCardLengthException;
+use Inacho\Exception\CreditCardLuhnException;
+use Inacho\Exception\CreditCardPatternException;
+use Inacho\Exception\CreditCardTypeException;
+
 class CreditCard
 {
+    const TYPE_AMEX = 'amex';
+    const TYPE_DANKORT = 'dankort';
+    const TYPE_DINERS_CLUB = 'dinersclub';
+    const TYPE_DISCOVER = 'discover';
+    const TYPE_FORBRUGSFORENINGEN = 'forbrugsforeningen';
+    const TYPE_JCB = 'jcb';
+    const TYPE_MAESTRO = 'maestro';
+    const TYPE_MASTERCARD = 'mastercard';
+    const TYPE_MIR = 'mir';
+    const TYPE_UNION_PAY = 'unionpay';
+    const TYPE_UZCARD = 'uzcard';
+    const TYPE_HUMO = 'humo';
+    const TYPE_VISA = 'visa';
+    const TYPE_VISA_ELECTRON = 'visaelectron';
+
     protected static $cards = array(
         // Debit cards must come first, since they have more specific patterns than their credit-card equivalents.
 
-        'visaelectron' => array(
-            'type' => 'visaelectron',
+        self::TYPE_VISA_ELECTRON => array(
+            'type' => self::TYPE_VISA_ELECTRON,
             'pattern' => '/^4(026|17500|405|508|844|91[37])/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'maestro' => array(
-            'type' => 'maestro',
-            'pattern' => '/^(5(018|0[23]|[68])|6(39|7))/',
+        self::TYPE_MAESTRO => array(
+            'type' => self::TYPE_MAESTRO,
+            'pattern' => '/^(5(018|0[23]|[68])|6(05|39|7))/',
             'length' => array(12, 13, 14, 15, 16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'forbrugsforeningen' => array(
-            'type' => 'forbrugsforeningen',
+        self::TYPE_FORBRUGSFORENINGEN => array(
+            'type' => self::TYPE_FORBRUGSFORENINGEN,
             'pattern' => '/^600/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'dankort' => array(
-            'type' => 'dankort',
+        self::TYPE_DANKORT => array(
+            'type' => self::TYPE_DANKORT,
             'pattern' => '/^5019/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
         // Credit cards
-        'visa' => array(
-            'type' => 'visa',
+        self::TYPE_VISA => array(
+            'type' => self::TYPE_VISA,
             'pattern' => '/^4/',
             'length' => array(13, 16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'mastercard' => array(
-            'type' => 'mastercard',
+        self::TYPE_MIR => array(
+            'type' => self::TYPE_MIR,
+            'pattern' => '/^220[0-4]/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        self::TYPE_MASTERCARD => array(
+            'type' => self::TYPE_MASTERCARD,
             'pattern' => '/^(5[0-5]|2[2-7])/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'amex' => array(
-            'type' => 'amex',
+        self::TYPE_AMEX => array(
+            'type' => self::TYPE_AMEX,
             'pattern' => '/^3[47]/',
             'format' => '/(\d{1,4})(\d{1,6})?(\d{1,5})?/',
             'length' => array(15),
             'cvcLength' => array(3, 4),
             'luhn' => true,
         ),
-        'dinersclub' => array(
-            'type' => 'dinersclub',
+        self::TYPE_DINERS_CLUB => array(
+            'type' => self::TYPE_DINERS_CLUB,
             'pattern' => '/^3[0689]/',
             'length' => array(14),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'discover' => array(
-            'type' => 'discover',
+        self::TYPE_DISCOVER => array(
+            'type' => self::TYPE_DISCOVER,
             'pattern' => '/^6([045]|22)/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
         ),
-        'unionpay' => array(
-            'type' => 'unionpay',
+        self::TYPE_UNION_PAY => array(
+            'type' => self::TYPE_UNION_PAY,
             'pattern' => '/^(62|88)/',
             'length' => array(16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => false,
         ),
-        'jcb' => array(
-            'type' => 'jcb',
+        self::TYPE_UZCARD => array(
+            'type' => self::TYPE_UZCARD,
+            'pattern' => '/^8600/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        self::TYPE_HUMO => array(
+            'type' => self::TYPE_HUMO,
+            'pattern' => '/^9860/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        self::TYPE_JCB => array(
+            'type' => self::TYPE_JCB,
             'pattern' => '/^35/',
             'length' => array(16),
             'cvcLength' => array(3),
@@ -96,7 +138,12 @@ class CreditCard
         ),
     );
 
-    public static function validCreditCard($number, $type = null)
+    /**
+     * @param string $number
+     * @param string|string[]|null $allowTypes By default, all card types are allowed
+     * @return array
+     */
+    public static function validCreditCard($number, $allowTypes = null)
     {
         $ret = array(
             'valid' => false,
@@ -105,10 +152,16 @@ class CreditCard
         );
 
         // Strip non-numeric characters
-        $number = preg_replace('/[^0-9]/', '', $number);
+        $number = preg_replace('/\D/', '', $number);
 
-        if (empty($type)) {
+        if (is_string($allowTypes)) {
+            $type = $allowTypes;
+        } else {
             $type = self::creditCardType($number);
+        }
+
+        if (empty($type) || is_array($allowTypes) && !in_array($type, $allowTypes)) {
+            return $ret;
         }
 
         if (array_key_exists($type, self::$cards) && self::validCard($number, $type)) {
@@ -120,6 +173,39 @@ class CreditCard
         }
 
         return $ret;
+    }
+
+    /**
+     * @param string $number
+     * @param string|string[]|null $allowTypes By default, all card types are allowed
+     * @throws CreditCardException
+     */
+    public static function checkCreditCard($number, $allowTypes = null)
+    {
+        // Strip non-numeric characters
+        $number = preg_replace('/\D/', '', $number);
+
+        if (is_string($allowTypes)) {
+            $type = $allowTypes;
+        } else {
+            $type = self::creditCardType($number);
+        }
+
+        if (empty($type) || (is_array($allowTypes) && !in_array($type, $allowTypes))) {
+            throw new CreditCardTypeException(sprintf('Type "%s" card is not allowed', $type));
+        }
+
+        if (!self::validPattern($number, $type)) {
+            throw new CreditCardPatternException(sprintf('Wrong "%s" card pattern', $number));
+        }
+
+        if (!self::validLength($number, $type)) {
+            throw new CreditCardLengthException(sprintf('Incorrect "%s" card length', $number));
+        }
+
+        if (!self::validLuhn($number, $type)) {
+            throw new CreditCardLuhnException(sprintf('Invalid card number: "%s". Checksum is wrong', $number));
+        }
     }
 
     public static function validCvc($cvc, $type)

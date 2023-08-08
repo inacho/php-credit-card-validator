@@ -13,55 +13,62 @@ class Test extends PHPUnit_Framework_TestCase
     protected $validCards = array(
 
         // Debit cards
-        'visaelectron' => array(
+        CreditCard::TYPE_VISA_ELECTRON => array(
             '4917300800000000',
         ),
-        'maestro' => array(
+        CreditCard::TYPE_MAESTRO => array(
             '6759649826438453',
             '6799990100000000019',
         ),
-        'forbrugsforeningen' => array(
+        CreditCard::TYPE_FORBRUGSFORENINGEN => array(
             '6007220000000004',
         ),
-        'dankort' => array(
+        CreditCard::TYPE_DANKORT => array(
             '5019717010103742',
         ),
 
         // Credit cards
-        'visa' => array(
+        CreditCard::TYPE_VISA => array(
             '4111111111111111',
             '4012888888881881',
             '4222222222222',
             '4462030000000000',
             '4484070000000000',
         ),
-        'mastercard' => array(
+        CreditCard::TYPE_MIR => array(
+            '2200654321000000',
+        ),
+        CreditCard::TYPE_MASTERCARD => array(
             '5555555555554444',
             '5454545454545454',
             '2221000002222221',
         ),
-        'amex' => array(
+        CreditCard::TYPE_AMEX => array(
             '378282246310005',
             '371449635398431',
             '378734493671000', // American Express Corporate
         ),
-        'dinersclub' => array(
+        CreditCard::TYPE_DINERS_CLUB => array(
             '30569309025904',
             '38520000023237',
             '36700102000000',
             '36148900647913',
         ),
-        'discover' => array(
+        CreditCard::TYPE_DISCOVER => array(
             '6011111111111117',
             '6011000990139424',
         ),
-        'unionpay' => array(
+        CreditCard::TYPE_UNION_PAY => array(
             '6271136264806203568',
             '6236265930072952775',
             '6204679475679144515',
             '6216657720782466507',
         ),
-        'jcb' => array(
+        CreditCard::TYPE_UZCARD => array(
+        ),
+        CreditCard::TYPE_HUMO => array(
+        ),
+        CreditCard::TYPE_JCB => array(
             '3530111333300000',
             '3566002020360505',
         ),
@@ -77,6 +84,33 @@ class Test extends PHPUnit_Framework_TestCase
                 $this->assertEquals($type, $result['type'], 'Invalid type. Number: ' . $number . ', Expected: ' . $type . ', Actual: ' . $result['type']);
             }
         }
+    }
+
+    public function testCardAllowedTypes()
+    {
+        // Card type specified
+        $result = CreditCard::validCreditCard($this->validCards[CreditCard::TYPE_VISA][0], CreditCard::TYPE_VISA);
+        $this->assertEquals(true, $result['valid'], 'Invalid card, expected valid.');
+        $this->assertEquals(CreditCard::TYPE_VISA, $result['type'], 'Invalid type.');
+
+        // Wrong card type
+        $result = CreditCard::validCreditCard($this->validCards[CreditCard::TYPE_VISA][0], CreditCard::TYPE_MASTERCARD);
+        $this->assertEquals(false, $result['valid'], 'Valid card, expected invalid.');
+
+        // Allowed types specified as an array
+        $result = CreditCard::validCreditCard(
+                $this->validCards[CreditCard::TYPE_VISA][0],
+                array(CreditCard::TYPE_VISA, CreditCard::TYPE_MASTERCARD)
+        );
+        $this->assertEquals(true, $result['valid'], 'Invalid card, expected valid.');
+        $this->assertEquals(CreditCard::TYPE_VISA, $result['type'], 'Invalid type.');
+
+        // Card type is not in the allowed types array
+        $result = CreditCard::validCreditCard(
+                $this->validCards[CreditCard::TYPE_AMEX][0],
+                array(CreditCard::TYPE_VISA, CreditCard::TYPE_MASTERCARD)
+        );
+        $this->assertEquals(false, $result['valid'], 'Valid card, expected invalid.');
     }
 
     public function testNumbers()
@@ -108,6 +142,30 @@ class Test extends PHPUnit_Framework_TestCase
         // Less than 10 digits
         $result = CreditCard::validCreditCard('424242424');
         $this->assertEquals(false, $result['valid']);
+    }
+
+    public function testLengthException()
+    {
+        $this->setExpectedException('Inacho\Exception\CreditCardLengthException');
+        CreditCard::checkCreditCard('42424242424242424');
+    }
+
+    public function testTypeException()
+    {
+        $this->setExpectedException('Inacho\Exception\CreditCardTypeException');
+        CreditCard::checkCreditCard('4242-4242-4242-4242', array(CreditCard::TYPE_MASTERCARD, CreditCard::TYPE_AMEX));
+    }
+
+    public function testPatternException()
+    {
+        $this->setExpectedException('Inacho\Exception\CreditCardPatternException');
+        CreditCard::checkCreditCard('6266-4242-42942-4242', CreditCard::TYPE_VISA);
+    }
+
+    public function testLuhnException()
+    {
+        $this->setExpectedException('Inacho\Exception\CreditCardLuhnException');
+        CreditCard::checkCreditCard('4233-3333-3333-4242');
     }
 
     public function testLuhn()
@@ -155,18 +213,18 @@ class Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, CreditCard::validCvc('123', ''));
 
         // Empty number
-        $this->assertEquals(false, CreditCard::validCvc('', 'visa'));
+        $this->assertEquals(false, CreditCard::validCvc('', CreditCard::TYPE_VISA));
 
         // Valid
-        $this->assertEquals(true, CreditCard::validCvc('123', 'visa'));
+        $this->assertEquals(true, CreditCard::validCvc('123', CreditCard::TYPE_VISA));
 
         // Non digits
-        $this->assertEquals(false, CreditCard::validCvc('12e', 'visa'));
+        $this->assertEquals(false, CreditCard::validCvc('12e', CreditCard::TYPE_VISA));
 
         // Less than 3 digits
-        $this->assertEquals(false, CreditCard::validCvc('12', 'visa'));
+        $this->assertEquals(false, CreditCard::validCvc('12', CreditCard::TYPE_VISA));
 
         // More than 3 digits
-        $this->assertEquals(false, CreditCard::validCvc('1234', 'visa'));
+        $this->assertEquals(false, CreditCard::validCvc('1234', CreditCard::TYPE_VISA));
     }
 }

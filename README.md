@@ -34,7 +34,7 @@ If you are using Laravel, add an alias in `config/app.php`
 ### Validate a card number knowing the type:
 
 ```php
-$card = CreditCard::validCreditCard('5500005555555559', 'mastercard');
+$card = CreditCard::validCreditCard('5500005555555559', CreditCard::TYPE_MASTERCARD);
 print_r($card);
 ```
 
@@ -43,9 +43,44 @@ Output:
 ```
 Array
 (
-    [valid] => 1
+    [valid] => true
     [number] => 5500005555555559
     [type] => mastercard
+)
+```
+
+### Validate a card number using a range of allowed types:
+
+```php
+$card = CreditCard::validCreditCard('5500005555555559', array(CreditCard::TYPE_VISA, CreditCard::TYPE_MASTERCARD));
+print_r($card);
+```
+
+Output:
+
+```
+Array
+(
+    [valid] => true
+    [number] => 5500005555555559
+    [type] => mastercard
+)
+```
+
+
+```php
+$card = CreditCard::validCreditCard('371449635398431', array(CreditCard::TYPE_VISA, CreditCard::TYPE_MASTERCARD));
+print_r($card);
+```
+
+Output:
+
+```
+Array
+(
+    [valid] => false
+    [number] => 
+    [type] => 
 )
 ```
 
@@ -61,7 +96,7 @@ Output:
 ```
 Array
 (
-    [valid] => 1
+    [valid] => true
     [number] => 371449635398431
     [type] => amex
 )
@@ -70,7 +105,7 @@ Array
 ### Validate the CVC
 
 ```php
-$validCvc = CreditCard::validCvc('234', 'visa');
+$validCvc = CreditCard::validCvc('234', CreditCard::TYPE_VISA);
 var_dump($validCvc);
 ```
 
