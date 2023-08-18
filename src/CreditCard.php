@@ -24,7 +24,7 @@ class CreditCard
         ),
         'maestro' => array(
             'type' => 'maestro',
-            'pattern' => '/^(5(018|0[23]|[68])|6(39|7))/',
+            'pattern' => '/^(5(016|018|0[23]|[68])|6(39|7))/',
             'length' => array(12, 13, 14, 15, 16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => true,
