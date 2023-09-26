@@ -24,7 +24,7 @@ class CreditCard
         ),
         'maestro' => array(
             'type' => 'maestro',
-            'pattern' => '/^(5(018|0[23]|[68])|6(39|7))/',
+            'pattern' => '/^(5(016|018|0[23]|[68])|6(39|7))/',
             'length' => array(12, 13, 14, 15, 16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => true,
@@ -39,6 +39,13 @@ class CreditCard
         'dankort' => array(
             'type' => 'dankort',
             'pattern' => '/^5019/',
+            'length' => array(16),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        'mir' => array(
+            'type' => 'mir',
+            'pattern' => '/^220[0-4]/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
@@ -82,7 +89,7 @@ class CreditCard
         ),
         'unionpay' => array(
             'type' => 'unionpay',
-            'pattern' => '/^(62|88)/',
+            'pattern' => '/^(62|81)/',
             'length' => array(16, 17, 18, 19),
             'cvcLength' => array(3),
             'luhn' => false,
@@ -90,6 +97,20 @@ class CreditCard
         'jcb' => array(
             'type' => 'jcb',
             'pattern' => '/^35/',
+            'length' => array(16, 17, 18, 19),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        'uatp' => array(
+            'type' => 'uatp',
+            'pattern' => '/^1/',
+            'length' => array(15),
+            'cvcLength' => array(3),
+            'luhn' => true,
+        ),
+        'rupay' => array(
+            'type' => 'rupay',
+            'pattern' => '/^(60|6521|6522)/',
             'length' => array(16),
             'cvcLength' => array(3),
             'luhn' => true,
@@ -119,6 +140,12 @@ class CreditCard
             );
         }
 
+        $ret['validation'] = array(
+            'pattern' => !empty($type) && self::validPattern($number, $type),
+            'length' => !empty($type) && self::validLength($number, $type),
+            'luhn' => !empty($type) && self::validLuhn($number, $type),
+        );
+
         return $ret;
     }
 
@@ -147,20 +174,48 @@ class CreditCard
         return true;
     }
 
-    // PROTECTED
-    // ---------------------------------------------------------
-
-    protected static function creditCardType($number)
+    /**
+     * @param string      $number
+     * @param string|null $preferBrand
+     *
+     * @return string
+     */
+    protected static function creditCardType($number, $preferBrand = null)
     {
+        $matched = [];
+
         foreach (self::$cards as $type => $card) {
             if (preg_match($card['pattern'], $number)) {
-                return $type;
+                $matched[] = $type;
             }
         }
 
-        return '';
+        if (!empty($preferBrand) && in_array(strtolower($preferBrand), $matched)) {
+            return $preferBrand;
+        }
+
+        return isset($matched[0]) ? $matched[0] : '';
     }
 
+    /**
+     * @param string      $bin
+     * @param string|null $preferBrand
+     *
+     * @return null|string
+     */
+    public static function determineCreditCardType($bin, $preferBrand = null)
+    {
+        $type = self::creditCardType($bin, $preferBrand);
+
+        return !empty($type) ? $type : null;
+    }
+
+    /**
+     * @param $number
+     * @param $type
+     *
+     * @return bool
+     */
     protected static function validCard($number, $type)
     {
         return (self::validPattern($number, $type) && self::validLength($number, $type) && self::validLuhn($number, $type));
@@ -206,12 +261,12 @@ class CreditCard
     {
         $checksum = 0;
         for ($i=(2-(strlen($number) % 2)); $i<=strlen($number); $i+=2) {
-            $checksum += (int) ($number{$i-1});
+            $checksum += (int) ($number[$i-1]);
         }
 
         // Analyze odd digits in even length strings or even digits in odd length strings.
         for ($i=(strlen($number)% 2) + 1; $i<strlen($number); $i+=2) {
-            $digit = (int) ($number{$i-1}) * 2;
+            $digit = (int) ($number[$i-1]) * 2;
             if ($digit < 10) {
                 $checksum += $digit;
             } else {
